@@ -2,4 +2,4 @@ resources:
   - fluxcd.yaml
   - coredns.yaml
   - blackbox-exporter.yaml
-  # - google.yaml
+  - google.yaml
