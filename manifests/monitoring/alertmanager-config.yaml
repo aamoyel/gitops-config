@@ -1,0 +1,56 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: main
+spec:
+  inhibitRules:
+    - sourceMatch:
+        - matchType: "="
+          name: "severity"
+          value: "critical"
+      targetMatch:
+        - matchType: "=~"
+          name: "severity"
+          value: "warning|info|none"
+      equal:
+        - namespace
+        - alertname
+        - name
+    - sourceMatch:
+        - matchType: "="
+          name: "severity"
+          value: "warning"
+      targetMatch:
+        - matchType: "=~"
+          name: "severity"
+          value: "info|none"
+      equal:
+        - namespace
+        - alertname
+        - name
+    - sourceMatch:
+        - matchType: "="
+          name: "alertname"
+          value: "InfoInhibitor"
+      targetMatch:
+        - matchType: "="
+          name: "severity"
+          value: "info"
+      equal:
+        - namespace
+  route:
+    repeatInterval: 12h
+    receiver: whatever
+    groupBy:
+      - alertname
+      - namespace
+      - exported_namespace
+      - name
+    routes:
+      - matchers:
+          - matchType: "=~"
+            name: "alertname"
+            value: "InfoInhibitor|Watchdog|KubeCPUOvercommit|KubeMemoryOvercommit|CDIDefaultStorageClassDegraded|KubeVirtNoAvailableNodesToRunVMs|LowKVMNodesCount|KubeVirtDeprecatedAPIRequested"
+        receiver: null
+  receivers:
+    - name: whatever

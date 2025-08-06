@@ -1,0 +1,27 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: monitoring-requirements
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./manifests/monitoring/kube-prometheus/crds
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-config
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: monitoring-setup
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./manifests/monitoring
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: gitops-config
+  dependsOn:
+    - monitoring-requirements

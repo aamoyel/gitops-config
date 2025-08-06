@@ -1,0 +1,4 @@
+resources:
+  - fluxcd.yaml
+  - coredns.yaml
+  - blackbox-exporter.yaml

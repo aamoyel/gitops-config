@@ -1,0 +1,38 @@
+resources:
+  - servicemonitors/
+  - prometheusrules/
+  - kube-prometheus/
+  - probes/
+  - kubestatemetrics-cm.yaml
+  - kubestatemetrics-rbacs.yaml
+  - alertmanager-config.yaml
+patches:
+  - path: blackbox-exporter-patch.yaml
+    target:
+      kind: Deployment
+      name: blackbox-exporter
+  - path: kubestatemetrics-patch.yaml
+    target:
+      kind: Deployment
+      name: kube-state-metrics
+  - path: prometheus-patch.yaml
+    target:
+      kind: Prometheus
+      name: k8s
+  - path: alertmanager-patch.yaml
+    target:
+      kind: Alertmanager
+      name: main
+  - path: blackbox-exporter-cm-patch.yaml
+    target:
+      kind: ConfigMap
+      name: blackbox-exporter-configuration
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: notImportantHere
+      namespace: monitoring
+    unsetOnly: true
+    setRoleBindingSubjects: none

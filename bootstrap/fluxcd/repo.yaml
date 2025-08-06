@@ -1,0 +1,14 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: gitops-config
+  namespace: flux-system
+spec:
+  interval: 1m
+  ref:
+    branch: main
+  url: https://github.com/aamoyel/gitops-config.git
+  ignore: |
+    /*
+    !/bootstrap/fluxcd
+    !/gitops
