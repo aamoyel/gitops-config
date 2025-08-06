@@ -11,4 +11,5 @@ spec:
   ignore: |
     /*
     !/bootstrap/fluxcd
-    !/gitops
+    !/apps
+    !/manifests
