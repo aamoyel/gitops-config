@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: google-probe-rules
+spec:
+  groups:
+    - name: google.rules
+      rules:
+        - alert: Google HTTP Probe duration is high
+          annotations:
+            description: Blackbox HTTP probe duration for google.com is under 0.001s
+            summary: Blackbox HTTP probe duration for google.com is under 0.001s
+          expr: probe_duration_seconds{instance="https://google.com"}>=0.001
+          for: 1m
+          labels:
+            severity: critical
