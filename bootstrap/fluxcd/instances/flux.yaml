@@ -1,7 +1,7 @@
 apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
 metadata:
-  name: main
+  name: flux
   namespace: flux-system
   annotations:
     fluxcd.controlplane.io/reconcileEvery: "30m"
